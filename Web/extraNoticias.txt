@@ -1,0 +1,47 @@
+<?php
+			$servername = "35.198.52.148";
+			//$servername = "localhost";
+			$username = "elusuariodeinmortaljic";
+			$password = "1q2w3e4rzxCtgbuhby123456";
+			$dbname = "inmortalao";
+			
+			$conn = new mysqli($servername, $username, $password, $dbname);
+			
+			if ($conn->connect_error) {
+				die("Connection failed: " . $conn->connect_error);
+			} 
+			
+            $reg = $conn->query('SELECT * FROM noticias ORDER BY noticia_id DESC LIMIT 5');
+            
+            if($reg and $reg->num_rows !== 0):
+                
+                while($row = $reg->fetch_assoc()){
+        ?>
+            
+                        <div>
+                        
+                            <div class="diome"><h2><?=$row['noticia_titulo']?></h2></div>
+                
+                            <div class="entry-content">
+                                <?=$row['noticia_contenido']?>
+                            </div>
+                            
+                            <div class="info">
+                            
+                                <div class="fecha">
+                                    Publicado <a href="<?=$c['site']['url']?>?id=<?=$row['noticia_id']?>" title="<?=$row['noticia_fecha']?>" rel="bookmark"><?=nod_date_posted($row['noticia_fecha'])?></a> por <?=$row['noticia_autor']?>
+                                </div>
+                                <?=$row['noticia_cat']?> | 
+                                <a href="<?=$c['site']['url']?>?id=<?=$row['noticia_id']?>" title="Comentarios en <?=$row['noticia_titulo']?>">Dejar un comentario</a>
+                            </div>
+                        </div>
+        
+        <br style="clear:both" />
+        
+        
+        
+        <?php
+                }
+                $conn->close();
+            else:
+        ?>
